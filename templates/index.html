@@ -9,11 +9,22 @@
 </head>
 <body>
 
-  <div id="yt-bg">
-    <div id="yt-player"></div>
+  <div id="yt-bg" aria-hidden="true">
+    <iframe
+      id="yt-player"
+      src="https://www.youtube.com/embed/-KwZvmKIwqI?autoplay=1&mute=1&loop=1&playlist=-KwZvmKIwqI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      frameborder="0"
+      tabindex="-1"
+    ></iframe>
   </div>
 
   <div class="overlay-dark"></div>
+
+  <div id="click-to-unmute" class="unmute-banner">
+    🔇 Click anywhere to enable music
+  </div>
 
   <nav class="navbar">
     <div class="nav-inner">
@@ -40,9 +51,9 @@
       <h1>Fort Worth <span class="red">Marketplace</span></h1>
       <p>Support the server, unlock exclusive perks, and enhance your roleplay experience.</p>
       <button class="hero-btn" onclick="scrollToMarket()">Browse Marketplace</button>
-      <div class="music-bar" id="musicBar">
-        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔇 Enable Music</button>
-        <span class="music-label">🎵 Fort Worth Ambience Playing</span>
+      <div class="music-bar">
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔊 Music On</button>
+        <span class="music-label" id="musicLabel">🎵 Fort Worth Ambience</span>
       </div>
     </div>
   </header>
@@ -159,7 +170,7 @@
             <li>✅ External Emojis & Stickers</li>
             <li>✅ Use banned vehicles</li>
           </ul>
-          <a href="https://discord.com/servers" target="_blank" class="card-btn">Boost Server</a>
+          <a href="https://discord.gg/haQtN9cXR7" target="_blank" class="card-btn">Boost Server</a>
         </div>
         <div class="card">
           <div class="card-icon">👑</div>
@@ -271,74 +282,66 @@
   </div>
 
   <script>
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    var unmuted = false;
+    var musicOn = true;
+    var iframe = document.getElementById('yt-player');
+    var banner = document.getElementById('click-to-unmute');
+    var musicBtn = document.getElementById('musicBtn');
+    var musicLabel = document.getElementById('musicLabel');
 
-    var player;
-    var musicEnabled = false;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('yt-player', {
-        videoId: '-KwZvmKIwqI',
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          loop: 1,
-          playlist: '-KwZvmKIwqI',
-          mute: 1,
-          playsinline: 1,
-          rel: 0,
-          showinfo: 0,
-          modestbranding: 1
-        },
-        events: {
-          onReady: function(e) {
-            e.target.setVolume(40);
-          }
-        }
-      });
+    function sendCmd(cmd) {
+      iframe.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: cmd, args: [] }),
+        '*'
+      );
     }
 
+    function unmuteOnce() {
+      if (!unmuted) {
+        unmuted = true;
+        sendCmd('unMute');
+        banner.style.opacity = '0';
+        setTimeout(function() { banner.style.display = 'none'; }, 600);
+      }
+    }
+
+    document.addEventListener('click', unmuteOnce, { once: true });
+    document.addEventListener('touchstart', unmuteOnce, { once: true });
+
     function toggleMusic() {
-      if (!player) return;
-      var btn = document.getElementById('musicBtn');
-      if (!musicEnabled) {
-        player.unMute();
-        player.playVideo();
-        musicEnabled = true;
-        btn.textContent = '🔊 Music On';
-        btn.classList.add('on');
+      if (musicOn) {
+        sendCmd('mute');
+        musicBtn.textContent = '🔇 Music Off';
+        musicBtn.classList.remove('on');
+        musicLabel.style.opacity = '0.3';
+        musicOn = false;
       } else {
-        player.mute();
-        player.pauseVideo();
-        musicEnabled = false;
-        btn.textContent = '🔇 Enable Music';
-        btn.classList.remove('on');
+        sendCmd('unMute');
+        unmuteOnce();
+        musicBtn.textContent = '🔊 Music On';
+        musicBtn.classList.add('on');
+        musicLabel.style.opacity = '1';
+        musicOn = true;
       }
     }
 
     function scrollToMarket() {
-      document.getElementById('marketMain').style.display = 'block';
-      document.getElementById('siteFooter').style.display = 'block';
-      document.getElementById('navLinks').querySelectorAll('a').forEach(function(a) {
-        a.style.pointerEvents = 'auto';
-      });
+      var main = document.getElementById('marketMain');
+      var footer = document.getElementById('siteFooter');
+      main.style.display = 'block';
+      footer.style.display = 'flex';
       setTimeout(function() {
-        document.getElementById('marketMain').scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-      document.getElementById('hamburger').addEventListener('click', function() {
-        var nl = document.getElementById('navLinks');
-        nl.classList.toggle('open');
-      });
+        main.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
     }
 
-    var currentRobuxUrl = '#';
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
 
     function openModal(type, usdPrice, robuxUrl) {
-      currentRobuxUrl = robuxUrl;
-      document.getElementById('modalSub').textContent = 'USD Price: $' + usdPrice + ' via Cash App  |  Or pay with Robux via Game Pass';
+      document.getElementById('modalSub').textContent =
+        'USD Price: $' + usdPrice + ' via Cash App  |  Or pay with Robux via Game Pass';
       document.getElementById('robuxBtn').href = robuxUrl;
       document.getElementById('modalOverlay').classList.add('active');
       document.getElementById('modal').classList.add('active');
@@ -348,13 +351,7 @@
       document.getElementById('modalOverlay').classList.remove('active');
       document.getElementById('modal').classList.remove('active');
     }
-
-    document.getElementById('hamburger').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
   </script>
-
-  <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
