@@ -9,19 +9,28 @@
 </head>
 <body>
 
+  <div id="yt-bg">
+    <div id="yt-player"></div>
+  </div>
+
+  <div class="overlay-dark"></div>
+
   <nav class="navbar">
     <div class="nav-inner">
       <div class="nav-brand">
         <span class="brand-icon">🌟</span>
         <span class="brand-name">Fort Worth Roleplay</span>
       </div>
-      <div class="nav-links">
-        <a href="#premium">Premium</a>
-        <a href="#donations">Donations</a>
-        <a href="#economy">Economy</a>
-        <a href="#roles">Roles</a>
-        <a href="#offices">Offices</a>
-        <a href="#ads">Advertising</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <a href="#" onclick="scrollToMarket()">Premium</a>
+        <a href="#" onclick="scrollToMarket()">Donations</a>
+        <a href="#" onclick="scrollToMarket()">Economy</a>
+        <a href="#" onclick="scrollToMarket()">Roles</a>
+        <a href="#" onclick="scrollToMarket()">Offices</a>
+        <a href="#" onclick="scrollToMarket()">Advertising</a>
       </div>
     </div>
   </nav>
@@ -30,16 +39,19 @@
     <div class="hero-content">
       <h1>Fort Worth <span class="red">Marketplace</span></h1>
       <p>Support the server, unlock exclusive perks, and enhance your roleplay experience.</p>
-      <a href="#premium" class="hero-btn">Browse Marketplace</a>
+      <button class="hero-btn" onclick="scrollToMarket()">Browse Marketplace</button>
+      <div class="music-bar" id="musicBar">
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔇 Enable Music</button>
+        <span class="music-label">🎵 Fort Worth Ambience Playing</span>
+      </div>
     </div>
-    <div class="hero-overlay"></div>
   </header>
 
-  <main class="container">
+  <main class="container" id="marketMain" style="display:none;">
 
     <section id="premium" class="section">
       <h2 class="section-title"><span class="red">💎</span> Texas Premium</h2>
-      <p class="section-sub">Purchasing Fort Worth Premium allows you to gain multiple exclusive benefits and support our server.</p>
+      <p class="section-sub">Purchasing Texas Premium allows you to gain multiple exclusive benefits and support our server.</p>
       <div class="card-grid single">
         <div class="card premium-card">
           <div class="card-badge">Most Popular</div>
@@ -53,89 +65,82 @@
             <li>✅ Send Links & Images in general</li>
             <li>✅ Gain more economy money daily</li>
           </ul>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <button class="card-btn" onclick="openModal('premium', 5, 'REPLACEME_GAMEPASS_URL')">Purchase Here</button>
         </div>
       </div>
     </section>
 
     <section id="donations" class="section">
       <h2 class="section-title"><span class="red">🔵</span> Robux Donations</h2>
-      <p class="section-sub">Donating to our server allows us to do giveaways, purchase new liveries & uniforms, and keep improving the experience for everyone. You are only eligible for the @Donator role if you donate <strong>100+ Robux</strong> or donate <strong>3€+</strong>.</p>
+      <p class="section-sub">Donating helps us do giveaways, purchase new liveries & uniforms, and keep improving the experience. You are only eligible for the @Donator role if you donate <strong>100+ Robux</strong> or <strong>$10+</strong>.</p>
       <div class="card-grid">
         <div class="card">
           <div class="card-icon">🔵</div>
           <h3>50 Robux</h3>
-          <p class="card-price">R$50</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Donate Here</a>
+          <p class="card-price">R$50 <span>/ $5</span></p>
+          <button class="card-btn" onclick="openModal('donate50', 5, 'REPLACEME_GAMEPASS_50')">Donate Here</button>
         </div>
         <div class="card">
           <div class="card-icon">🔵</div>
           <h3>100 Robux</h3>
-          <p class="card-price">R$100</p>
-          <p class="card-note">Unlocks @Donator role</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Donate Here</a>
+          <p class="card-price">R$100 <span>/ $10</span></p>
+          <p class="card-note">✨ Unlocks @Donator role</p>
+          <button class="card-btn" onclick="openModal('donate100', 10, 'REPLACEME_GAMEPASS_100')">Donate Here</button>
         </div>
         <div class="card">
           <div class="card-icon">🔵</div>
           <h3>200 Robux</h3>
-          <p class="card-price">R$200</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Donate Here</a>
+          <p class="card-price">R$200 <span>/ $20</span></p>
+          <button class="card-btn" onclick="openModal('donate200', 20, 'REPLACEME_GAMEPASS_200')">Donate Here</button>
         </div>
         <div class="card">
           <div class="card-icon">🔵</div>
           <h3>500 Robux</h3>
-          <p class="card-price">R$500</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Donate Here</a>
+          <p class="card-price">R$500 <span>/ $25</span></p>
+          <button class="card-btn" onclick="openModal('donate500', 25, 'REPLACEME_GAMEPASS_500')">Donate Here</button>
         </div>
         <div class="card">
           <div class="card-icon">🔵</div>
           <h3>1,000 Robux</h3>
-          <p class="card-price">R$1,000</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Donate Here</a>
+          <p class="card-price">R$1,000 <span>/ $30</span></p>
+          <button class="card-btn" onclick="openModal('donate1000', 30, 'REPLACEME_GAMEPASS_1000')">Donate Here</button>
         </div>
       </div>
     </section>
 
     <section id="economy" class="section">
       <h2 class="section-title"><span class="red">💵</span> Economy Money</h2>
-      <p class="section-sub">Ever wanted to gain large amounts of economy money quickly? Purchase large sums of money to get ahead of the game! Once purchased, open a Community ticket to claim your money.</p>
+      <p class="section-sub">Purchase large sums of in-game economy money to get ahead! Once purchased, open a Community ticket to claim your money.</p>
       <div class="card-grid">
         <div class="card">
           <div class="card-icon">💵</div>
           <h3>$100,000</h3>
-          <p class="card-price">R$100 <span>/ $1</span></p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <p class="card-price">R$100 <span>/ $10</span></p>
+          <button class="card-btn" onclick="openModal('eco100k', 10, 'REPLACEME_GAMEPASS_ECO100K')">Purchase Here</button>
         </div>
         <div class="card">
           <div class="card-icon">💵</div>
           <h3>$250,000</h3>
-          <p class="card-price">R$200 <span>/ $2</span></p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <p class="card-price">R$200 <span>/ $20</span></p>
+          <button class="card-btn" onclick="openModal('eco250k', 20, 'REPLACEME_GAMEPASS_ECO250K')">Purchase Here</button>
         </div>
         <div class="card">
           <div class="card-icon">💵</div>
           <h3>$500,000</h3>
-          <p class="card-price">R$350 <span>/ $3</span></p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <p class="card-price">R$350 <span>/ $35</span></p>
+          <button class="card-btn" onclick="openModal('eco500k', 35, 'REPLACEME_GAMEPASS_ECO500K')">Purchase Here</button>
         </div>
         <div class="card">
           <div class="card-icon">💵</div>
           <h3>$1,000,000</h3>
-          <p class="card-price">R$500 <span>/ $5</span></p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <p class="card-price">R$500 <span>/ $40</span></p>
+          <button class="card-btn" onclick="openModal('eco1m', 40, 'REPLACEME_GAMEPASS_ECO1M')">Purchase Here</button>
         </div>
         <div class="card">
           <div class="card-icon">💵</div>
           <h3>$10,000,000</h3>
-          <p class="card-price">R$999 <span>/ $8</span></p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
-        </div>
-        <div class="card">
-          <div class="card-icon">🛡️</div>
-          <h3>Rob Immunity</h3>
-          <p class="card-price">R$999</p>
-          <p class="card-note">Never get robbed again</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <p class="card-price">R$999 <span>/ $45</span></p>
+          <button class="card-btn" onclick="openModal('eco10m', 45, 'REPLACEME_GAMEPASS_ECO10M')">Purchase Here</button>
         </div>
       </div>
     </section>
@@ -147,13 +152,11 @@
         <div class="card">
           <div class="card-icon">💠</div>
           <h3>Server Booster</h3>
-          <p class="card-note">Boost our Discord server</p>
+          <p class="card-note">Boost our Discord server to receive</p>
           <ul class="card-perks">
             <li>✅ Custom role of choice</li>
             <li>✅ Exclusive @Server Booster role</li>
             <li>✅ External Emojis & Stickers</li>
-            <li>✅ Links & Images in general</li>
-            <li>✅ More economy money daily</li>
             <li>✅ Use banned vehicles</li>
           </ul>
           <a href="https://discord.com/servers" target="_blank" class="card-btn">Boost Server</a>
@@ -161,18 +164,19 @@
         <div class="card">
           <div class="card-icon">👑</div>
           <h3>VIP</h3>
-          <p class="card-note">Given at Directive discretion</p>
+          <p class="card-price">R$500 <span>/ $20</span></p>
           <ul class="card-perks">
             <li>✅ Use banned vehicles</li>
             <li>✅ Links & Images in general</li>
             <li>✅ External Emojis & Stickers</li>
+            <li>✅ More economy money daily</li>
           </ul>
-          <span class="card-btn disabled">By Invite Only</span>
+          <button class="card-btn" onclick="openModal('vip', 20, 'REPLACEME_GAMEPASS_VIP')">Purchase Here</button>
         </div>
         <div class="card">
           <div class="card-icon">🛠️</div>
           <h3>Contributor</h3>
-          <p class="card-note">Helping the server grow</p>
+          <p class="card-note">Given to those who help the server</p>
           <ul class="card-perks">
             <li>✅ Use banned vehicles</li>
           </ul>
@@ -197,40 +201,41 @@
         <div class="card">
           <div class="card-icon">🏢</div>
           <h3>Custom Office</h3>
+          <p class="card-price">$10.00</p>
           <ul class="card-perks">
             <li>✅ Up to <strong>20</strong> key holders</li>
             <li>✅ Custom office name</li>
             <li>✅ Custom role name</li>
           </ul>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <button class="card-btn" onclick="openModal('office', 10, 'REPLACEME_GAMEPASS_OFFICE')">Purchase Here</button>
         </div>
       </div>
     </section>
 
     <section id="ads" class="section">
       <h2 class="section-title"><span class="red">📢</span> Sponsored & Paid Giveaways</h2>
-      <p class="section-sub">Ever wanted to advertise your server in a large community? Purchase a sponsored advertisement here! We offer 3 types of sponsored advertisements to suit your needs.</p>
+      <p class="section-sub">Want to advertise your server to a large community? Purchase a sponsored advertisement below.</p>
       <div class="card-grid">
         <div class="card">
           <div class="card-icon">📢</div>
           <h3>@everyone Ping</h3>
-          <p class="card-price">R$1,000 <span>/ $8</span></p>
+          <p class="card-price">R$2,000 <span>/ $15</span></p>
           <p class="card-note">Reach the entire server instantly</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <button class="card-btn" onclick="openModal('adeveryone', 15, 'REPLACEME_GAMEPASS_AD_EVERYONE')">Purchase Here</button>
         </div>
         <div class="card">
           <div class="card-icon">👤</div>
           <h3>@here Ping</h3>
-          <p class="card-price">R$500 <span>/ $5</span></p>
+          <p class="card-price">R$1,000 <span>/ $15</span></p>
           <p class="card-note">Reach everyone active in the channel</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <button class="card-btn" onclick="openModal('adhere', 15, 'REPLACEME_GAMEPASS_AD_HERE')">Purchase Here</button>
         </div>
         <div class="card">
           <div class="card-icon">↩️</div>
           <h3>Queue Bypass</h3>
-          <p class="card-price">R$300 <span>/ $3</span></p>
+          <p class="card-price">R$500 <span>/ $20</span></p>
           <p class="card-note">Get your ad posted immediately</p>
-          <a href="https://REPLACEME.com" target="_blank" class="card-btn">Purchase Here</a>
+          <button class="card-btn" onclick="openModal('adbypass', 20, 'REPLACEME_GAMEPASS_AD_BYPASS')">Purchase Here</button>
         </div>
       </div>
     </section>
@@ -238,18 +243,118 @@
     <section class="section transactions">
       <h2 class="section-title"><span class="red">💳</span> We Accept</h2>
       <div class="transaction-grid">
-        <div class="transaction-item">💳 Visa Cards</div>
-        <div class="transaction-item">🅿️ PayPal</div>
-        <div class="transaction-item">🍎 Apple Pay</div>
+        <div class="transaction-item">💚 Cash App</div>
+        <div class="transaction-item">🔵 Robux (Game Pass)</div>
       </div>
     </section>
 
   </main>
 
-  <footer class="footer">
+  <footer class="footer" id="siteFooter" style="display:none;">
     <p>© 2026 Fort Worth Roleplay | Official — All rights reserved.</p>
     <p>Server Code: <strong>TexasRpFW</strong></p>
   </footer>
+
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">How would you like to purchase?</h2>
+    <p class="modal-sub" id="modalSub"></p>
+    <div class="modal-btns">
+      <a id="cashAppBtn" href="https://cash.app/$giogabagool" target="_blank" class="modal-btn cashapp" onclick="closeModal()">
+        💚 Cash App
+      </a>
+      <a id="robuxBtn" href="#" target="_blank" class="modal-btn robux" onclick="closeModal()">
+        🔵 Robux (Game Pass)
+      </a>
+    </div>
+  </div>
+
+  <script>
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    var musicEnabled = false;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-player', {
+        videoId: '-KwZvmKIwqI',
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          loop: 1,
+          playlist: '-KwZvmKIwqI',
+          mute: 1,
+          playsinline: 1,
+          rel: 0,
+          showinfo: 0,
+          modestbranding: 1
+        },
+        events: {
+          onReady: function(e) {
+            e.target.setVolume(40);
+          }
+        }
+      });
+    }
+
+    function toggleMusic() {
+      if (!player) return;
+      var btn = document.getElementById('musicBtn');
+      if (!musicEnabled) {
+        player.unMute();
+        player.playVideo();
+        musicEnabled = true;
+        btn.textContent = '🔊 Music On';
+        btn.classList.add('on');
+      } else {
+        player.mute();
+        player.pauseVideo();
+        musicEnabled = false;
+        btn.textContent = '🔇 Enable Music';
+        btn.classList.remove('on');
+      }
+    }
+
+    function scrollToMarket() {
+      document.getElementById('marketMain').style.display = 'block';
+      document.getElementById('siteFooter').style.display = 'block';
+      document.getElementById('navLinks').querySelectorAll('a').forEach(function(a) {
+        a.style.pointerEvents = 'auto';
+      });
+      setTimeout(function() {
+        document.getElementById('marketMain').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+      document.getElementById('hamburger').addEventListener('click', function() {
+        var nl = document.getElementById('navLinks');
+        nl.classList.toggle('open');
+      });
+    }
+
+    var currentRobuxUrl = '#';
+
+    function openModal(type, usdPrice, robuxUrl) {
+      currentRobuxUrl = robuxUrl;
+      document.getElementById('modalSub').textContent = 'USD Price: $' + usdPrice + ' via Cash App  |  Or pay with Robux via Game Pass';
+      document.getElementById('robuxBtn').href = robuxUrl;
+      document.getElementById('modalOverlay').classList.add('active');
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.getElementById('modal').classList.remove('active');
+    }
+
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
